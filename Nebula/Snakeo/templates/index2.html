@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <div>test</div>
+  <script>
+
+
+    const ws = new WebSocket(
+      "ws://"
+      + window.location.host
+      + "/ws/asgi/"
+      + "0000/"
+    );
+
+    ws.onopen = (event) => {
+      console.log('connected');
+      ws.send(JSON.stringify({"message": "oh that an a message"}));
+
+    };
+
+    ws.onclose = (e) => {
+      console.error('socket closed ?DS?A?D');
+    };
+
+
+    ws.onmessage = (text_data) => {
+      console.log(text_data.data);
+    }
+
+
+  </script>
+
+</body>
+
+</html>
