@@ -2,7 +2,11 @@
 <html>
 
 <body>
-  <div>test</div>
+  <div>
+    <form action="" , method="post">
+      {% csrf_token %}
+      <input type="submit" name="" value="st1art game">
+  </div>
   <script>
 
 
@@ -10,12 +14,12 @@
       "ws://"
       + window.location.host
       + "/ws/asgi/"
-      + "0000/"
+      + "{{lobby_id}}/"
     );
 
     ws.onopen = (event) => {
       console.log('connected');
-      ws.send(JSON.stringify({"message": "oh that an a message"}));
+      ws.send(JSON.stringify({"direction": "right"}));
 
     };
 

@@ -9,8 +9,9 @@ application = ProtocolTypeRouter({
     "http" : get_asgi_application(),
     # Django's ASGI application to handle traditional HTTP requests
     # WebSocket chat handler
-    "websocket":
-        URLRouter([
-            re_path(r"ws/asgi/(?P<lobby_id>\w+)/$", consumers.GameLobby.as_asgi()),
-        ])
+    "websocket": AuthMiddlewareStack(
+            URLRouter([
+                re_path(r"ws/asgi/(?P<lobby_id>\w+)/$", consumers.GameLobby.as_asgi()),
+            ])
+    )
 })

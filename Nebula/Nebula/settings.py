@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'daphne',
-    'Snakeo',
+    'SnakeoWeb',
     'channels',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -76,7 +76,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Nebula.wsgi.application'
-ASGI_APPLICATION = 'Snakeo.routing.application'
+ASGI_APPLICATION = 'SnakeoWeb.routing.application'
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': "channels.layers.InMemoryChannelLayer"

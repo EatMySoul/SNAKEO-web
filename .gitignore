@@ -23,4 +23,9 @@ yarn-debug.log*
 yarn-error.log*
 
 
+/migrations
+__pycache__/
 /venv
+*.pyc
+*.sqlite3
+
