@@ -1,3 +1,4 @@
+from django.http.response import sync_to_async
 from django.shortcuts import HttpResponseRedirect, render
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -5,14 +6,17 @@ from django.shortcuts import render
 from .snakeo_lobby_manager import snakeo_lobby_manager
 from .forms import LobbyCreationForm
 import shortuuid
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 import asyncio
+import json
 
 # Create your views here.
 
 def main_page(request):
     if request.method == "POST":
 
-        user = request.user
+        user = request.user 
         print("in view ", user)
 
         form = LobbyCreationForm(request.POST)
@@ -23,6 +27,15 @@ def main_page(request):
     else: 
         form = LobbyCreationForm()
     return render(request, "main_page.html", {"form": form})
+
+
+@api_view(["POST"])
+def start_snakeo_lobby(request):
+    print('BUTTTON IS PREEESSSED BONOOASODASD')
+    lobby_id = json.loads(request.body)["lobby_id"]
+    print(request.body)
+    snakeo_lobby_manager.lobby_start_game(lobby_id, request.user) #Похоже я должен переработать менеджер, чтобы у него был свой ивент луп 
+    return Response() 
 
 
 async def snakeo_lobby(request, lobby_id):

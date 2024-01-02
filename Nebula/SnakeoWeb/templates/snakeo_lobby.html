@@ -17,6 +17,13 @@
       + "{{lobby_id}}/"
     );
 
+    console.log(
+
+      "ws://"
+      + window.location.host
+      + "/ws/asgi/"
+      + "{{lobby_id}}/"
+    )
     ws.onopen = (event) => {
       console.log('connected');
       ws.send(JSON.stringify({"direction": "right"}));

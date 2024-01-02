@@ -43,16 +43,18 @@ class Lobby():
     def create_server(self):
         self.server = Snakeo()
 
-    async def start_game(self):
+    def start_game(self):
+        print('hmmmm')
 
         self.server.init_gamefield()
         self.set_status("running")
-        while True:   ## TODO w
-            print('tick')
-            data =  await self.server.gameloop()
+        asyncio.run(self.lobbyloop())
 
-            await self._channel_layer.group_send(self.id, {"type": "gameloop_data","data": data})    ## Я ПОхоже сдеклал что-то не так, больно страшный код получается
-
+    async def lobbyloop(self):
+        while True:  # TODO W ря что зхначинт
+            print('tiiick')
+            data = await self.server.gameloop()
+            await self._channel_layer.group_send(self.id, {"type": "gameloop_data", "data": data})
 
     def recive_direction(self, player, direction):
         print(self.players)
@@ -85,6 +87,7 @@ class SnakeoLobbyManager():
 
     def __init__(self):
         self.snakeo_lobby = []
+        self.loop = asyncio.get_event_loop()
 
     def create_snakeo_lobby(self, id, owner, max_players=12):
 
@@ -113,14 +116,14 @@ class SnakeoLobbyManager():
             print("Lobby with that id already exist")
             print("Exception occured: ", LobbyIdAlreadyExist)  
     
-    async def lobby_start_game(self, lobby_id, user): ### Нужно перенести функционал в класс лобби
+    def lobby_start_game(self, lobby_id, user): ### Нужно перенести функционал в класс лобби
 
         lobby = self.get_snakeo_lobby(lobby_id)
         if lobby:
-            if lobby.owner != user or lobby.status == "running": ## TODO look bad
+            if lobby.owner != user or lobby.status == "":
                 return 0
         
-            asyncio.create_task(lobby.start_game())
+            lobby.start_game()
         else:
             print("TODOMEMEMEM       FAILED TO START LOBBY")
 
