@@ -45,9 +45,9 @@ class GameLobby(AsyncWebsocketConsumer):     ## SAME AS VIEW
     # Receive data from WebSocket
     async def receive(self, text_data):
  
-        print(text_data)
         text_data_json = json.loads(text_data)
         direction = text_data_json["direction"]
+        print(f'{self.user} pressed {direction} button')
         self.snakeo_lobby.recive_direction(self.user ,direction)  # TORENAME
 
 

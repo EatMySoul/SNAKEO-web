@@ -35,6 +35,7 @@ def start_snakeo_lobby(request):
     lobby_id = json.loads(request.body)["lobby_id"]
     print(request.body)
     snakeo_lobby_manager.lobby_start_game(lobby_id, request.user) #Похоже я должен переработать менеджер, чтобы у него был свой ивент луп 
+    print('DOOOOOOOOOOOOOOOOONE')
     return Response() 
 
 

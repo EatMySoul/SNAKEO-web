@@ -24,6 +24,7 @@ class Lobby():
 
     def __init__(self, id, owner, max_players):
 
+
         self.id = id
         self.max_players = max_players
         self.owner = owner
@@ -43,21 +44,23 @@ class Lobby():
     def create_server(self):
         self.server = Snakeo()
 
-    def start_game(self):
-        print('hmmmm')
+    async def start_game(self):
+        print('Lobby instance trying to start game')
+        print(f'with players : {self.players}')
 
         self.server.init_gamefield()
         self.set_status("running")
-        asyncio.run(self.lobbyloop())
+
+        task = asyncio.create_task(self.lobbyloop())
+        await task
 
     async def lobbyloop(self):
         while True:  # TODO W ря что зхначинт
-            print('tiiick')
+            print(f'{self.id} lobby tick ....')
             data = await self.server.gameloop()
             await self._channel_layer.group_send(self.id, {"type": "gameloop_data", "data": data})
 
     def recive_direction(self, player, direction):
-        print(self.players)
         self.players[player].recive_direction(direction)
 
 
@@ -111,7 +114,7 @@ class SnakeoLobbyManager():
             
             new_lobby = Lobby(id=id, owner=owner, max_players=max_players)
             self.snakeo_lobby.append(new_lobby)
-            print(self.snakeo_lobby)
+            print(f'{new_lobby} is created, \nlist of lobbys : {self.snakeo_lobby}')
         except  LobbyIdAlreadyExist:
             print("Lobby with that id already exist")
             print("Exception occured: ", LobbyIdAlreadyExist)  
@@ -123,7 +126,7 @@ class SnakeoLobbyManager():
             if lobby.owner != user or lobby.status == "":
                 return 0
         
-            lobby.start_game()
+            asyncio.run(lobby.start_game()) #### DLA kostila
         else:
             print("TODOMEMEMEM       FAILED TO START LOBBY")
 

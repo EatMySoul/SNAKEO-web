@@ -3,11 +3,11 @@ import pickle
 import asyncio
 from enum import Enum
 
-MAP_SIZE = 700
+MAP_SIZE = 10
 GAME_SPEED = 100
 MAX_PLAYERS = 2
 SCORE_TODO = 1
-TICK_RATE = 2
+TICK_RATE = 1
 
 
 
